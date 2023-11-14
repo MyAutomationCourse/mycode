@@ -3,22 +3,29 @@ import argparse
 import socket
 from datetime import datetime
 
-def server(port):
-    x = "Your choice was server and it will run on port " + str(port)
+
+def server(port, udp):
+    x = "Your choice was server and it will run on port " + str(port) + " " + str(udp)
     return x
 
-def client(port):
-    x = "Your choice was client and it will run on port " + str(port)
+def client(port, udp):
+    x = "Your choice was client and it will run on port " + str(port) + " " + str(udp)
     return x
 
 if __name__ == '__main__':
     choices = {'client': client, 'server': server}
+    
     parser = argparse.ArgumentParser(description='Send and receive UDP locally')
     parser.add_argument('role', choices=choices, help='which role to play')
     parser.add_argument('-p', metavar='PORT', type=int, default=1060,
                         help='UDP port (default 1060)')
-    parser.add_argument('-t', metavar='UDP', help='which role to play')
+    parser.add_argument('-t', metavar='UDP', type=int, default=0, help='Specify UDP')
+    
+
     args = parser.parse_args()
+    print(args)
+
     function = choices[args.role]
-    print(function(args.p))
+    
+    print(function(args.p, args.t))
 
